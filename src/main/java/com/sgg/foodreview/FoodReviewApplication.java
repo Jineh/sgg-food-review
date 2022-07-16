@@ -1,4 +1,4 @@
-package com.sgg.foodreview.repository.foodReview;
+package com.sgg.foodreview;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
