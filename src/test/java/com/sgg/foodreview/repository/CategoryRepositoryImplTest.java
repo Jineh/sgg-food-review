@@ -14,13 +14,11 @@ import javax.transaction.Transactional;
 @Transactional
 class CategoryRepositoryImplTest {
 
-
     @PersistenceContext
     EntityManager em;
 
     @Autowired
     CatgoryRepository catgoryRepository;
-
 
     @Test
     void saveTest(){
