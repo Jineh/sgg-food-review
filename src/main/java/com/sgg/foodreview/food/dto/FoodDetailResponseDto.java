@@ -1,6 +1,10 @@
 package com.sgg.foodreview.food.dto;
 
+import com.sgg.foodreview.review.dto.ReviewDto;
+import com.sgg.foodreview.review.dto.ReviewsDto;
 import lombok.Data;
+
+import java.util.List;
 
 @Data
 public class FoodDetailResponseDto {
@@ -13,4 +17,6 @@ public class FoodDetailResponseDto {
     private Long categoryId;
     private String categoryNm;
     // 리뷰 리스트
+
+    List<ReviewsDto> reviewDtoList;
 }

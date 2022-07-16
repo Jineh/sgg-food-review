@@ -9,6 +9,7 @@ import com.sgg.foodreview.entity.QImage;
 import com.sgg.foodreview.entity.QReview;
 import com.sgg.foodreview.entity.Review;
 import com.sgg.foodreview.review.dto.ReviewDto;
+import com.sgg.foodreview.review.dto.ReviewsDto;
 import com.sgg.foodreview.review.repository.ImageRepository;
 import com.sgg.foodreview.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +82,9 @@ public class ReviewService {
             reviewRepository.save(review);
 
         }
+        else{
+
+        }
 
 
 
@@ -104,12 +108,12 @@ public class ReviewService {
 
 
 
-    public List<ReviewDto> getReviewList(Long fdId){
+    public List<ReviewsDto> getReviewList(Long fdId){
 
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-        List<ReviewDto> rvs = queryFactory
-                .select(Projections.fields(ReviewDto.class,
+        List<ReviewsDto> rvs = queryFactory
+                .select(Projections.fields(ReviewsDto.class,
                         review.reviewId,
                         review.reviewStar.as("rating"),
                         review.reviewText,
