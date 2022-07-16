@@ -1,6 +1,7 @@
 package com.sgg.foodreview.repository;
 
 import com.sgg.foodreview.entity.Category;
+import com.sgg.foodreview.repository.category.CatgoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

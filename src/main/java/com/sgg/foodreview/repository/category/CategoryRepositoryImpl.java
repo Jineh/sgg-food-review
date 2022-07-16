@@ -1,4 +1,4 @@
-package com.sgg.foodreview.repository;
+package com.sgg.foodreview.repository.category;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sgg.foodreview.entity.Category;
