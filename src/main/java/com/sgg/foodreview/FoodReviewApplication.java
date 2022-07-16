@@ -8,10 +8,8 @@ public class FoodReviewApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(FoodReviewApplication.class, args);
+
     }
 
-    public String test(String[] args) {
-        return null;
-    }
 
 }
