@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -25,25 +26,25 @@ public class ReivewController {
 
     private final ReviewService reviewService;
 
-    @Value("${file.dir}")
-    private String fileDir;
 
-    public String getFullPath(String filename) {
-        return fileDir + filename;
-    }
+
+//    @GetMapping("/")
+//    public ResponseEntity<Result> getReview(){
+//
+//        List<ReviewDto> rvs = reviewService.getReviewList();
+//
+//
+//
+//        return ResponseEntity.ok(new Result("200", "게시글 작성", rvs));
+//
+//    }
 
     @PostMapping("/upload")
     public ResponseEntity<Result> saveFile(@RequestParam(value = "img", required = false) MultipartFile img,
                                    @RequestPart("myReview") ReviewDto review) throws IOException {
 
 
-        if (!img.isEmpty()) {
-            String originalFilename = img.getOriginalFilename();
-            String storeFileName = reviewService.createStoreFileName(originalFilename);
-            img.transferTo(new File(getFullPath(storeFileName)));
-        }
-
-        reviewService.regReview(review);
+        reviewService.regReview(review, img);
         return ResponseEntity.ok(new Result("200", "게시글 작성"));
 
     }
