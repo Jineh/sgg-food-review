@@ -10,4 +10,8 @@ public class FoodReviewApplication {
         SpringApplication.run(FoodReviewApplication.class, args);
     }
 
+    public String test(String[] args) {
+        return null;
+    }
+
 }
