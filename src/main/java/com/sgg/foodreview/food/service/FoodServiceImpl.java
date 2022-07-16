@@ -20,10 +20,7 @@ public class FoodServiceImpl implements FoodService{
 
         String rating = "4.5";
 
-        return foodRepository.findAll()
-                .stream()
-                .map(FoodResponseDto::new)
-                .collect(Collectors.toList());
+        return foodRepository.findAllByOrderByFdNmAsc();
     }
 
 

@@ -3,6 +3,7 @@ package com.sgg.foodreview.food.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sgg.foodreview.entity.QFood;
 import com.sgg.foodreview.entity.QReview;
@@ -20,11 +21,12 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
     EntityManager em;
 
     @Override
-    public List<FoodResponseDto> findAllByOOrderByFdNmAsc(){
+    public List<FoodResponseDto> findAllByOrderByFdNmAsc(){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QFood qFood = QFood.food;
         QReview qReview = QReview.review;
+        QReview qReview2 = new QReview("qReview2");
         BooleanBuilder builder = new BooleanBuilder();
 
         List<FoodResponseDto> list = queryFactory
@@ -36,17 +38,23 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
                                 ,qFood.foodDesc
                                 ,qFood.foodPrice
                                 // rating
-//                                ,ExpressionUtils.as(
-//                                        JPAQueryFactory.select(
-////                                            qReview.
-//                                        ).from(qReview)
+                                ,ExpressionUtils.as(
+                                        JPAExpressions.select(
+                                                qReview.reviewStar.avg()
+                                        ).from(qReview)
+                                                .where(qReview.foodId.eq(qFood.foodId))
+//                                        JPAExpressions.select(qReview.reviewStar.sum().divide(
+//                                                JPAExpressions.select(qReview.foodId.count())
+//                                                        .from(qReview2)
+//                                                        .where(qReview2.foodId.eq(qFood.foodId))
+//                                                ))
+//                                                .from(qReview)
 //                                                .where(qReview.foodId.eq(qFood.foodId))
-//                                ,"rating")
+                                ,"rating")
                         )
                 ).from(qFood)
-                .where(builder)
                 .orderBy(qFood.foodNm.asc())
-                .fetch()
+                .fetch();
                 ;
 
         return list;
