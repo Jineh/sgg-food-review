@@ -1,5 +1,7 @@
 package com.sgg.foodreview.food.controller;
 
+import com.sgg.foodreview.food.dto.FoodDetailRequestParam;
+import com.sgg.foodreview.food.dto.FoodDetailResponseDto;
 import com.sgg.foodreview.food.dto.FoodResponseDto;
 import com.sgg.foodreview.food.service.FoodService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +22,16 @@ public class FoodController {
     @ResponseBody
     public List<FoodResponseDto> foodList(){
         List<FoodResponseDto> responseDtos = foodService.foodList();
+        return responseDtos;
+    }
+
+    @PostMapping(value="/food-dtl")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public FoodDetailResponseDto foodList(@RequestBody FoodDetailRequestParam foodId){
+
+        Long fdId = Long.valueOf(foodId.getFoodId());
+        FoodDetailResponseDto responseDtos = foodService.foodDetail(fdId);
         return responseDtos;
     }
 }
