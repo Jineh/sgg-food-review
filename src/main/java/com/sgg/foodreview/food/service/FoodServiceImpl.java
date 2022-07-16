@@ -17,14 +17,12 @@ public class FoodServiceImpl implements FoodService{
     @Override
     @Transactional
     public List<FoodResponseDto> foodList(){
-
-        return foodRepository.findAllByOrderByFdNmAsc();
+        return foodRepository.foodList();
     }
 
     @Override
     public FoodDetailResponseDto foodDetail(Long foodId) {
-
-        return foodRepository.foodDetailByFoodId(foodId);
+        return foodRepository.findFoodDetailByFoodId(foodId);
     }
 
 

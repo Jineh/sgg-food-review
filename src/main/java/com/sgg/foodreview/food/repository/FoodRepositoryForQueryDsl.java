@@ -6,7 +6,7 @@ import com.sgg.foodreview.food.dto.FoodResponseDto;
 import java.util.List;
 
 public interface FoodRepositoryForQueryDsl{
-    List<FoodResponseDto> findAllByOrderByFdNmAsc();
+    List<FoodResponseDto> foodList();
 
-    FoodDetailResponseDto foodDetailByFoodId(Long id);
+    FoodDetailResponseDto findFoodDetailByFoodId(Long id);
 }

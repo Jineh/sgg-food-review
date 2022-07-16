@@ -26,7 +26,7 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
     EntityManager em;
 
     @Override
-    public List<FoodResponseDto> findAllByOrderByFdNmAsc(){
+    public List<FoodResponseDto> foodList(){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QFood qFood = QFood.food;
@@ -65,7 +65,7 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
     }
 
     @Override
-    public FoodDetailResponseDto foodDetailByFoodId(Long foodId) {
+    public FoodDetailResponseDto findFoodDetailByFoodId(Long foodId) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QFood qFood = QFood.food;
