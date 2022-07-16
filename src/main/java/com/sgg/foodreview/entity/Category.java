@@ -17,9 +17,9 @@ public class Category{
     @Column(name = "category_id", unique = true, nullable = false)
     private Long categoryId;
 
-    @Column(name = "category_nm", unique = true, nullable = false)
+    @Column(name = "category_nm")
     private String categoryNm;
 
-    @Column(name = "category_desc", unique = true, nullable = false)
+    @Column(name = "category_desc")
     private String categoryDesc;
 }
