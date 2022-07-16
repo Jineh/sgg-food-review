@@ -21,4 +21,13 @@ public class Review extends BaseEntity{
     @Column(name = "fd_id")
     private Long foodId;
 
+    @Column(name = "rv_star")
+    private int reviewStar;
+
+    @Column(name = "rv_text")
+    private String reviewText;
+
+    @Column(name = "img_id")
+    private Long imgId;
+
 }
