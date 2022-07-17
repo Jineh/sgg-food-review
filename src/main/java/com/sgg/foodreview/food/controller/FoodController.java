@@ -29,7 +29,7 @@ public class FoodController {
     public List<FoodResponseDto> foodList(@PathVariable(required = false) Long categoryId){
 
 //        Long categotyId = requestParam.getCategoryId();
-        System.out.println("categotyId : " + categoryId);
+//        System.out.println("categotyId : " + categoryId);
         List<FoodResponseDto> responseDtos = foodService.foodList(categoryId);
         return responseDtos;
     }

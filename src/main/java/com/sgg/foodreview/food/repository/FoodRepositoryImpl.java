@@ -11,6 +11,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sgg.foodreview.entity.QCategory;
 import com.sgg.foodreview.entity.QFood;
+import com.sgg.foodreview.entity.QImage;
 import com.sgg.foodreview.entity.QReview;
 import com.sgg.foodreview.food.dto.FoodDetailResponseDto;
 import com.sgg.foodreview.food.dto.FoodResponseDto;
@@ -34,6 +35,7 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
 
         QFood qFood = QFood.food;
         QReview qReview = QReview.review;
+        QImage qImage = QImage.image;
         StringTemplate formattedDate = Expressions.stringTemplate(
                 "DATE_FORMAT({0}, {1})"
                 , qFood.newDt
@@ -60,6 +62,12 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
                                                 .where(qReview.foodId.eq(qFood.foodId))
                                 ,"rating")
                                 ,formattedDate.as("newDt")
+                                ,Expressions.as(
+                                        JPAExpressions.select(
+                                                        qImage.imgPath
+                                        ).from(qImage)
+                                                .where(qFood.imgId.eq(qImage.imgId))
+                                ,"imgPath")
                         )
                 ).from(qFood)
                 .where(builder)
