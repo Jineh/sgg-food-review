@@ -2,6 +2,8 @@ package com.sgg.foodreview.review.dto;
 
 import lombok.Getter;
 
+import java.time.LocalDate;
+
 @Getter
 public class ReviewsDto {
     private int rating;
@@ -11,4 +13,6 @@ public class ReviewsDto {
     private Long reviewId;
 
     private String imgPath;
+
+    private String newDt;
 }
