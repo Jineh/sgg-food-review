@@ -8,9 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-
 import static java.util.Objects.isNull;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 @Service
 public class ReviewLikeServiceImpl implements ReviewLikeService {
@@ -19,20 +18,31 @@ public class ReviewLikeServiceImpl implements ReviewLikeService {
     ReviewLikeRepository reviewLikeRepository;
 
     @Override
-    public ResponseEntity<String> reviewLike(ReviewLikeResquestParam resquestParam) {
+    public ResponseEntity<String> insert(ReviewLikeResquestParam resquestParam) {
         Long lkId = resquestParam.getLkId();
+        Long rvId = resquestParam.getRvId();
         Long memberId = resquestParam.getMemberId();
-        String likeYn = resquestParam.getLikeYn();
+
         try {
-
-            ReviewLike reviewLike = reviewLikeRepository.findTopByLikeId(lkId);
-            if (isNull(reviewLike)) {
-                return new ResponseEntity<String>("PUT Response", HttpStatus.NO_CONTENT);
+            if(isEmpty(rvId)){
+                return new ResponseEntity<String>("PUT Response", HttpStatus.FORBIDDEN);
             }
-            reviewLike = new ReviewLike();
-            LocalDateTime now = LocalDateTime.now();
+            ReviewLike reviewLike = null;
+            // insert
+            if(isEmpty(lkId)){
+                reviewLike = new ReviewLike();
+                reviewLike.setReviewId(rvId);
 
-            reviewLikeRepository.save(reviewLike);
+                reviewLikeRepository.save(reviewLike);
+            }
+            // update
+            else{
+                reviewLike = reviewLikeRepository.findTopByLikeId(lkId);
+                if(isNull(reviewLike)){
+                    return new ResponseEntity<String>("PUT Response", HttpStatus.NO_CONTENT);
+                }
+                reviewLikeRepository.delete(reviewLike);
+            }
 
             return new ResponseEntity<String>("PUT Response", HttpStatus.OK);
         }catch (Exception e){

@@ -5,6 +5,6 @@ import org.springframework.http.ResponseEntity;
 
 public interface ReviewLikeService {
 
-    ResponseEntity<String> reviewLike(ReviewLikeResquestParam resquestParam);
+    ResponseEntity<String> insert(ReviewLikeResquestParam resquestParam);
 
 }
