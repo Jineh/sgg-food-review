@@ -14,12 +14,12 @@ public class ReviewLikeController {
     @Autowired
     ReviewLikeService reviewLikeService;
 
-    @PutMapping(value="/insert")
+    @PutMapping(value="/upsert")
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     public ResponseEntity<String> upsert(@RequestBody ReviewLikeResquestParam resquestParam){
 
-        return reviewLikeService.insert(resquestParam);
+        return reviewLikeService.upsert(resquestParam);
     }
 
 

@@ -18,7 +18,7 @@ public class ReviewLikeServiceImpl implements ReviewLikeService {
     ReviewLikeRepository reviewLikeRepository;
 
     @Override
-    public ResponseEntity<String> insert(ReviewLikeResquestParam resquestParam) {
+    public ResponseEntity<String> upsert(ReviewLikeResquestParam resquestParam) {
         Long lkId = resquestParam.getLkId();
         Long rvId = resquestParam.getRvId();
         Long memberId = resquestParam.getMemberId();

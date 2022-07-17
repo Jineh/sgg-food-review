@@ -15,6 +15,7 @@ public class FoodResponseDto {
     private Long categoryId;
     private Double rating;
     private String newDt;
+    private String imgPath;
 
 //    public FoodResponseDto(Food food, String rating){
 //        this.foodId = food.getFoodId();
