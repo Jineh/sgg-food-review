@@ -2,6 +2,7 @@ package com.sgg.foodreview.food.controller;
 
 import com.sgg.foodreview.food.dto.FoodDetailRequestParam;
 import com.sgg.foodreview.food.dto.FoodDetailResponseDto;
+import com.sgg.foodreview.food.dto.FoodListRequestParam;
 import com.sgg.foodreview.food.dto.FoodResponseDto;
 import com.sgg.foodreview.food.service.FoodService;
 import com.sgg.foodreview.review.dto.ReviewDto;
@@ -23,11 +24,14 @@ public class FoodController {
     @Autowired
     ReviewService reviewService;
 
-    @GetMapping(value="/food-list")
+    @GetMapping(value={"/food-list/{categoryId}", "/food-list"})
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
-    public List<FoodResponseDto> foodList(){
-        List<FoodResponseDto> responseDtos = foodService.foodList();
+    public List<FoodResponseDto> foodList(@PathVariable(required = false) Long categoryId){
+
+//        Long categotyId = requestParam.getCategoryId();
+        System.out.println("categotyId : " + categoryId);
+        List<FoodResponseDto> responseDtos = foodService.foodList(categoryId);
         return responseDtos;
     }
 

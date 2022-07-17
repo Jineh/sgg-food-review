@@ -16,8 +16,8 @@ public class FoodServiceImpl implements FoodService{
 
     @Override
     @Transactional
-    public List<FoodResponseDto> foodList(){
-        return foodRepository.foodList();
+    public List<FoodResponseDto> foodList(Long categotyId){
+        return foodRepository.foodList(categotyId);
     }
 
     @Override

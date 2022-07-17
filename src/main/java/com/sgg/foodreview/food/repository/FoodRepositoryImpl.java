@@ -1,9 +1,12 @@
 package com.sgg.foodreview.food.repository;
 
 import com.querydsl.core.BooleanBuilder;
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.MathExpressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sgg.foodreview.entity.QCategory;
@@ -26,11 +29,20 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
     EntityManager em;
 
     @Override
-    public List<FoodResponseDto> foodList(){
+    public List<FoodResponseDto> foodList(Long categotyId){
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QFood qFood = QFood.food;
         QReview qReview = QReview.review;
+        StringTemplate formattedDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0}, {1})"
+                , qFood.newDt
+                , ConstantImpl.create("%Y/%m/%d"));
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if(nonNull(categotyId)){
+            builder.and(qFood.categoryId.eq(categotyId));
+        }
 
         List<FoodResponseDto> list = queryFactory
                 .select(
@@ -40,23 +52,17 @@ public class FoodRepositoryImpl implements FoodRepositoryForQueryDsl{
                                 ,qFood.foodNm
                                 ,qFood.foodDesc
                                 ,qFood.foodPrice
-                                // rating
+                                ,qFood.categoryId
                                 ,ExpressionUtils.as(
                                         JPAExpressions.select(
-                                                        MathExpressions.round(qReview.reviewStar.avg(), 1)
+                                                        MathExpressions.round(qReview.reviewStar.avg().coalesce(0.0), 1)
                                         ).from(qReview)
                                                 .where(qReview.foodId.eq(qFood.foodId))
-
-//                                        JPAExpressions.select(qReview.reviewStar.sum().divide(
-//                                                JPAExpressions.select(qReview.foodId.count())
-//                                                        .from(qReview2)
-//                                                        .where(qReview2.foodId.eq(qFood.foodId))
-//                                                ))
-//                                                .from(qReview)
-//                                                .where(qReview.foodId.eq(qFood.foodId))
                                 ,"rating")
+                                ,formattedDate.as("newDt")
                         )
                 ).from(qFood)
+                .where(builder)
                 .orderBy(qFood.foodNm.asc())
                 .fetch();
                 ;

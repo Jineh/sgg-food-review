@@ -1,7 +1,10 @@
 package com.sgg.foodreview.review.service;
 
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.sgg.foodreview.entity.Image;
@@ -110,6 +113,11 @@ public class ReviewService {
 
     public List<ReviewsDto> getReviewList(Long fdId){
 
+        StringTemplate formattedDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0}, {1})"
+                , review.newDt
+                , ConstantImpl.create("%Y/%m/%d"));
+
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         List<ReviewsDto> rvs = queryFactory
@@ -117,7 +125,9 @@ public class ReviewService {
                         review.reviewId,
                         review.reviewStar.as("rating"),
                         review.reviewText,
-                        image.imgPath))
+                        image.imgPath,
+                        formattedDate.as("newDt")
+                ))
                 .from(review, image)
                 .where(review.imgId.eq(image.imgId).and(review.foodId.eq(fdId)))
                 .fetch();

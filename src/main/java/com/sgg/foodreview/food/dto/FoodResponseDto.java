@@ -12,7 +12,9 @@ public class FoodResponseDto {
     private String foodNm;
     private String foodDesc;
     private int foodPrice;
+    private Long categoryId;
     private Double rating;
+    private String newDt;
 
 //    public FoodResponseDto(Food food, String rating){
 //        this.foodId = food.getFoodId();
