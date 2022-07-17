@@ -17,5 +17,7 @@ public class ReviewDto {
 
    private String imgPath;
 
+   private int check;
+
 
 }

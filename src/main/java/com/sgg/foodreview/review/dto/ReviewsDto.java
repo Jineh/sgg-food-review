@@ -1,8 +1,11 @@
 package com.sgg.foodreview.review.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.querydsl.core.types.dsl.StringTemplate;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 public class ReviewsDto {
@@ -14,5 +17,10 @@ public class ReviewsDto {
 
     private String imgPath;
 
+
     private String newDt;
+
+    private Long likeId;
+
+
 }

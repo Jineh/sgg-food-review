@@ -3,14 +3,14 @@ package com.sgg.foodreview.review.service;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.querydsl.core.types.ConstantImpl;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.StringTemplate;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import com.sgg.foodreview.entity.Image;
-import com.sgg.foodreview.entity.QImage;
-import com.sgg.foodreview.entity.QReview;
-import com.sgg.foodreview.entity.Review;
+import com.sgg.foodreview.entity.*;
 import com.sgg.foodreview.review.dto.ReviewDto;
 import com.sgg.foodreview.review.dto.ReviewsDto;
 import com.sgg.foodreview.review.repository.ImageRepository;
@@ -32,6 +32,7 @@ import java.util.UUID;
 
 import static com.sgg.foodreview.entity.QImage.*;
 import static com.sgg.foodreview.entity.QReview.*;
+import static com.sgg.foodreview.entity.QReviewLike.*;
 
 @Slf4j
 @Service
@@ -137,11 +138,6 @@ public class ReviewService {
 
 
 
-
-
-
-
-
     public String createStoreFileName(String originalFilename) {
         String ext = extractExt(originalFilename);
         String uuid = UUID.randomUUID().toString();
@@ -156,23 +152,54 @@ public class ReviewService {
 
 
 
-    public List<ReviewsDto> getReviewList(Long fdId){
+    public List<ReviewsDto> getReviewList(Long fdId, int check) {
 
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
-        List<ReviewsDto> rvs = queryFactory
-                .select(Projections.fields(ReviewsDto.class,
-                        review.reviewId,
-                        review.reviewStar.as("rating"),
-                        review.reviewText,
-                        image.imgPath))
-                .from(review, image)
-                .where(review.imgId.eq(image.imgId).and(review.foodId.eq(fdId)))
-                .fetch();
+        List<ReviewsDto> rvs = null;
 
+        StringTemplate formattedDate = Expressions.stringTemplate(
+                "DATE_FORMAT({0}, {1})"
+                , review.newDt
+                , ConstantImpl.create("%Y/%m/%d"));
+
+        if (check == 0) {
+            rvs = queryFactory
+                    .select(Projections.fields(ReviewsDto.class,
+                            review.reviewId,
+                            review.reviewStar.as("rating"),
+                            review.reviewText,
+                            image.imgPath,
+                            formattedDate.as("newDt"),
+                            reviewLike.likeId))
+                    .from(review, image)
+                    .leftJoin(reviewLike).on(review.reviewId.eq(reviewLike.reviewId))
+                    .where(review.imgId.eq(image.imgId).and(review.foodId.eq(fdId)))
+                    .orderBy(review.newDt.desc())
+                    .fetch();
+
+            return rvs;
+        }
+
+        if (check == 1) {
+             rvs = queryFactory
+                    .select(Projections.fields(ReviewsDto.class,
+                            review.reviewId,
+                            review.reviewStar.as("rating"),
+                            review.reviewText,
+                            image.imgPath,
+                            formattedDate.as("newDt"),
+                            reviewLike.likeId))
+                    .from(review, image)
+                     .leftJoin(reviewLike).on(review.reviewId.eq(reviewLike.reviewId))
+                     .where(review.imgId.eq(image.imgId).and(review.foodId.eq(fdId)))
+                    .orderBy(review.reviewStar.desc())
+                    .fetch();
+            
+
+        }
 
         return rvs;
-
 
     }
 }

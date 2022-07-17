@@ -41,7 +41,7 @@ public class FoodController {
 
         Long fdId = Long.valueOf(foodId.getFoodId());
         FoodDetailResponseDto responseDtos = foodService.foodDetail(fdId);
-        List<ReviewsDto> reviewDtoList = reviewService.getReviewList(fdId);
+        List<ReviewsDto> reviewDtoList = reviewService.getReviewList(fdId, 0);
 
         responseDtos.setReviewDtoList(reviewDtoList);
         return responseDtos;

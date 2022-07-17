@@ -3,6 +3,7 @@ package com.sgg.foodreview.review.controller;
 import com.sgg.foodreview.Result;
 import com.sgg.foodreview.entity.Image;
 import com.sgg.foodreview.review.dto.ReviewDto;
+import com.sgg.foodreview.review.dto.ReviewsDto;
 import com.sgg.foodreview.review.dto.UploadFile;
 import com.sgg.foodreview.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -28,16 +29,15 @@ public class ReivewController {
 
 
 
-//    @GetMapping("/")
-//    public ResponseEntity<Result> getReview(){
-//
-//        List<ReviewDto> rvs = reviewService.getReviewList();
-//
-//
-//
-//        return ResponseEntity.ok(new Result("200", "게시글 작성", rvs));
-//
-//    }
+    @PostMapping("/")
+    public ResponseEntity<Result> getReview(@RequestBody ReviewDto reviewDto){
+
+        List<ReviewsDto> rvs = reviewService.getReviewList(reviewDto.getFoodId(), reviewDto.getCheck());
+        return ResponseEntity.ok(new Result("200", "게시글 작성", rvs));
+
+    }
+
+
 
     @PostMapping("/upload")
     public ResponseEntity<Result> saveFile(@RequestParam(value = "img", required = false) MultipartFile img,
