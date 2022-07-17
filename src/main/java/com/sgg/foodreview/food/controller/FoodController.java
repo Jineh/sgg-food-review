@@ -1,11 +1,10 @@
 package com.sgg.foodreview.food.controller;
 
+import com.sgg.foodreview.category.dto.CategoryListResponseParam;
 import com.sgg.foodreview.food.dto.FoodDetailRequestParam;
 import com.sgg.foodreview.food.dto.FoodDetailResponseDto;
-import com.sgg.foodreview.food.dto.FoodListRequestParam;
 import com.sgg.foodreview.food.dto.FoodResponseDto;
 import com.sgg.foodreview.food.service.FoodService;
-import com.sgg.foodreview.review.dto.ReviewDto;
 import com.sgg.foodreview.review.dto.ReviewsDto;
 import com.sgg.foodreview.review.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,5 +45,13 @@ public class FoodController {
 
         responseDtos.setReviewDtoList(reviewDtoList);
         return responseDtos;
+    }
+
+    @GetMapping(value="/category-list")
+    @ResponseStatus(HttpStatus.OK)
+    @ResponseBody
+    public List<CategoryListResponseParam> categoryList(){
+
+        return foodService.categoryList();
     }
 }

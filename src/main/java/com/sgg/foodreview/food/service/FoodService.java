@@ -1,5 +1,6 @@
 package com.sgg.foodreview.food.service;
 
+import com.sgg.foodreview.category.dto.CategoryListResponseParam;
 import com.sgg.foodreview.food.dto.FoodDetailResponseDto;
 import com.sgg.foodreview.food.dto.FoodResponseDto;
 
@@ -10,4 +11,5 @@ public interface FoodService {
 
     FoodDetailResponseDto foodDetail(Long foodId);
 
+    List<CategoryListResponseParam> categoryList();
 }

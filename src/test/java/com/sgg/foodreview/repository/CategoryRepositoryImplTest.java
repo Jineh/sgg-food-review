@@ -1,7 +1,7 @@
 package com.sgg.foodreview.repository;
 
 import com.sgg.foodreview.entity.Category;
-import com.sgg.foodreview.repository.category.CatgoryRepository;
+import com.sgg.foodreview.category.repository.CategoryRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,7 +18,7 @@ class CategoryRepositoryImplTest {
     EntityManager em;
 
     @Autowired
-    CatgoryRepository catgoryRepository;
+    CategoryRepository catgoryRepository;
 
     @Test
     void saveTest(){
