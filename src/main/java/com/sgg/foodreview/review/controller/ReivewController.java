@@ -49,6 +49,23 @@ public class ReivewController {
 
     }
 
+    @PostMapping("/uploads")
+    public ResponseEntity<Result> saveFiles(@RequestParam(value = "img", required = false) MultipartFile img,
+                                           @RequestParam("foodId") String fdId,
+                                           @RequestParam("rating") int rating,
+                                           @RequestParam("reviewText") String text) throws IOException {
+
+        Long id = Long.valueOf(fdId);
+        ReviewDto review = new ReviewDto();
+        review.setRating(rating);
+        review.setReviewText(text);
+        review.setFoodId(id);
+
+        reviewService.regReview(review, img);
+        return ResponseEntity.ok(new Result("200", "게시글 작성"));
+
+    }
+
 }
 
 

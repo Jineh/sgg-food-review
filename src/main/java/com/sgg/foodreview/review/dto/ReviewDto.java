@@ -1,8 +1,10 @@
 package com.sgg.foodreview.review.dto;
 
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class ReviewDto {
 
     private int rating;
